@@ -13,6 +13,7 @@
 
 <script>
     var navigator = weex.requireModule('navigator')
+    var weexModule = weex.requireModule('weexModule');
     const dom = weex.requireModule('dom')
     const modal = weex.requireModule('modal')
     export default {
@@ -49,12 +50,16 @@
                 // "target":{"ref":"186","type":"text","attr":{"value":"a"},"style":{"fontSize":45,"color":"#666666"},"event":["click"]},"timestamp":1488878471697}}]}]
                 var name = event.target.attr.value;
                 modal.toast({ message:  name.toString()})
-                navigator.push({
-                    url: 'http://192.168.1.15:8080/dist/'+name+'.weex.js',
-                    animated: "true"
-                }, event => {
-                   // modal.toast({ message: 'callback: ' + event })
-                })
+
+                 weexModule.openUrl('http://192.168.1.15:8080/dist/'+name+'.weex.js', function(err){
+                   console.log(err);
+                  });
+//                navigator.push({
+//                    url: 'http://192.168.1.15:8080/dist/'+name+'.weex.js',
+//                    animated: "true"
+//                }, event => {
+//                   // modal.toast({ message: 'callback: ' + event })
+//                })
             }
         }
     }
