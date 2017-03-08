@@ -1,0 +1,37 @@
+<template>
+    <div>
+    <navbar title="收藏"></navbar>
+
+    </div>
+</template>
+
+<script>
+
+    require('weex-components');
+    var stream = require('@weex-module/stream');
+    var modal = require('@weex-module/modal');
+    module.exports = {
+            data:{
+
+            },
+            methods:{
+
+
+            }
+    }
+
+</script>
+
+<style>
+    .refresh-view{
+        height:100;
+        width:750;
+        align-items:center;
+    }
+
+    .indicator{
+        width:60;
+        height:60;
+        color:#889967;
+    }
+</style>
