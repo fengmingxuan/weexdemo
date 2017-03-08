@@ -40,7 +40,16 @@
             this.rows.push('loading')
             this.rows.push('refresh')
             this.rows.push('scroller')
-
+            this.rows.push('animation')
+            this.rows.push('picker')
+            this.rows.push('WebSocket')
+            this.rows.push('clipboard')
+            this.rows.push('dom')
+            this.rows.push('modal')
+            this.rows.push('navigator')
+            this.rows.push('storage')
+            this.rows.push('stream')
+            this.rows.push('webview')
         },
         methods: {
             openitem:function (event) {
