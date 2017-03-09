@@ -50,6 +50,10 @@
             this.rows.push('storage')
             this.rows.push('stream')
             this.rows.push('webview')
+            this.rows.push('weexbar/tabbar')
+            this.rows.push('weexbar/collection')
+            this.rows.push('weexbar/me')
+            this.rows.push('weexbar/main')
         },
         methods: {
             openitem:function (event) {
