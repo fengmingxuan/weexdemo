@@ -539,19 +539,24 @@
 	//
 	//
 	//
+	//
+	//
 
 	var navigator = weex.requireModule('navigator');
 	var weexModule = weex.requireModule('weexModule');
 	var dom = weex.requireModule('dom');
 	var modal = weex.requireModule('modal');
+
 	exports.default = {
 	    data: function data() {
 	        return {
-	            rows: []
+	            rows: [],
+	            themetype: 0,
+	            activeColor: 'red'
 	        };
 	    },
 	    created: function created() {
-
+	        this.rows.push('weexbar/stock_template');
 	        this.rows.push('a');
 	        this.rows.push('slider');
 	        this.rows.push('indicator');
@@ -582,7 +587,12 @@
 	        this.rows.push('weexbar/collection');
 	        this.rows.push('weexbar/me');
 	        this.rows.push('weexbar/main');
+	        this.rows.push('navbar');
+	        this.rows.push('weexbar/joke_item');
+	        this.rows.push('weexbar/special_theme');
+	        this.getOptions();
 	    },
+	    ready: function ready() {},
 
 	    methods: {
 	        openitem: function openitem(event) {
@@ -591,18 +601,24 @@
 	            // tasks:[{"module":"modal","method":"toast","args":[{"message":{"position":{"height":52.77778,"width":713.19446,"x":33.333332,"y":191.66667},"type":"click",
 	            // "target":{"ref":"186","type":"text","attr":{"value":"a"},"style":{"fontSize":45,"color":"#666666"},"event":["click"]},"timestamp":1488878471697}}]}]
 	            var name = event.target.attr.value;
-	            modal.toast({ message: name.toString() });
-
-	            weexModule.openUrl('http://192.168.1.15:8080/dist/' + name + '.weex.js', function (err) {
-	                console.log(err);
+	            //                modal.toast({ message:  name.toString()})
+	            //
+	            //                 weexModule.openURL('http://192.168.1.15:8080/dist/'+name+'.weex.js');
+	            navigator.push({
+	                url: 'http://192.168.1.15:8080/dist/' + name + '.weex.js',
+	                animated: "true"
+	            }, function (event) {
+	                // modal.toast({ message: 'callback: ' + event })
 	            });
-	            //                navigator.push({
-	            //                    url: 'http://192.168.1.15:8080/dist/'+name+'.weex.js',
-	            //                    animated: "true"
-	            //                }, event => {
-	            //                   // modal.toast({ message: 'callback: ' + event })
-	            //                })
+	        }, getOptions: function getOptions() {
+	            this.themetype = this.$getConfig().themetype;
+	            if (this.themetype == 0) {
+	                this.activeColor = 'red';
+	            } else {
+	                this.activeColor = 'green';
+	            }
 	        }
+
 	    }
 	};
 
@@ -613,7 +629,7 @@
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
 	  return _c('div', {
 	    staticClass: "wrapper"
-	  }, [_c('scroller', {
+	  }, [_c('router-view'), _vm._v(" "), _c('scroller', {
 	    staticClass: "scroller"
 	  }, _vm._l((_vm.rows), function(name, index) {
 	    return _c('div', {
@@ -623,7 +639,9 @@
 	    }, [_c('text', {
 	      ref: 'text' + index,
 	      refInFor: true,
-	      staticClass: "text",
+	      style: ({
+	        color: _vm.activeColor
+	      }),
 	      on: {
 	        "click": _vm.openitem
 	      }

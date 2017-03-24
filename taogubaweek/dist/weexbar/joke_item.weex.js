@@ -107,7 +107,7 @@
 	                    "user-name-text"
 	                  ],
 	                  "attr": {
-	                    "value": function () {return this.username}
+	                    "value": function () {return this.userName}
 	                  }
 	                },
 	                {
@@ -381,6 +381,7 @@
 	module.exports = {
 
 	    created: function created() {
+	        console.log('item created');
 	        var self = this;
 	        if (self.url != "") {
 	            self.showimg = true;
@@ -396,7 +397,16 @@
 	        down: '',
 	        objectId: '',
 	        url: '',
-	        showimg: false
+	        showimg: false,
+	        'userID': '2',
+	        'userName': '股天乐',
+	        'topicID': '1647303',
+	        'totalReplyNum': '139',
+	        'subject': '淘县首届实战高峰论坛，专属投资者的大盛会，报名走起！',
+	        'postDate': '1490284800000',
+	        'lastReplyDate': '1490284800000',
+	        'thumbnail': '/img/forumthumbnail.png',
+	        'usefulNum': '36'
 	    }},
 
 	    methods: {

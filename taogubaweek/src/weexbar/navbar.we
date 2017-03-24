@@ -12,10 +12,10 @@
 </template>
 
 <script>
-    require('weex-components');
+require('weex-components');
     module.exports = {
         data:{
-            title:''
+            title:'NavBar'
         }
     }
 </script>

@@ -1,9 +1,11 @@
 <template>
   <div class="wrapper">
+    <router-view></router-view>
+
     <scroller class="scroller">
       <div class="row" v-for="(name, index) in rows" :ref="'item'+index">
 
-          <text class="text" :ref="'text'+index" @click="openitem">{{name}}</text>
+          <text v-bind:style="{color: activeColor}"  :ref="'text'+index" @click="openitem">{{name}}</text>
 
       </div>
     </scroller>
@@ -16,14 +18,18 @@
     var weexModule = weex.requireModule('weexModule');
     const dom = weex.requireModule('dom')
     const modal = weex.requireModule('modal')
+
+
     export default {
         data () {
             return {
-                rows: []
+                rows: [],
+                themetype:0,
+                activeColor:'red'
             }
         },
         created () {
-
+            this.rows.push('weexbar/stock_template')
             this.rows.push('a')
             this.rows.push('slider')
             this.rows.push('indicator')
@@ -54,6 +60,13 @@
             this.rows.push('weexbar/collection')
             this.rows.push('weexbar/me')
             this.rows.push('weexbar/main')
+            this.rows.push('navbar')
+            this.rows.push('weexbar/joke_item')
+            this.rows.push('weexbar/special_theme')
+            this.getOptions()
+        },
+        ready(){
+
         },
         methods: {
             openitem:function (event) {
@@ -62,18 +75,28 @@
                 // tasks:[{"module":"modal","method":"toast","args":[{"message":{"position":{"height":52.77778,"width":713.19446,"x":33.333332,"y":191.66667},"type":"click",
                 // "target":{"ref":"186","type":"text","attr":{"value":"a"},"style":{"fontSize":45,"color":"#666666"},"event":["click"]},"timestamp":1488878471697}}]}]
                 var name = event.target.attr.value;
-                modal.toast({ message:  name.toString()})
+//                modal.toast({ message:  name.toString()})
+//
+//                 weexModule.openURL('http://192.168.1.15:8080/dist/'+name+'.weex.js');
+                navigator.push({
+                    url: 'http://192.168.1.15:8080/dist/'+name+'.weex.js',
+                    animated: "true"
+                }, event => {
+                   // modal.toast({ message: 'callback: ' + event })
+                })
 
-                 weexModule.openUrl('http://192.168.1.15:8080/dist/'+name+'.weex.js', function(err){
-                   console.log(err);
-                  });
-//                navigator.push({
-//                    url: 'http://192.168.1.15:8080/dist/'+name+'.weex.js',
-//                    animated: "true"
-//                }, event => {
-//                   // modal.toast({ message: 'callback: ' + event })
-//                })
+            }, getOptions: function() {
+                this.themetype = this.$getConfig().themetype;
+                if(this.themetype==0){
+                    this.activeColor = 'red'
+                }else{
+                    this.activeColor = 'green'
+                }
+
             }
+
+
+
         }
     }
 </script>

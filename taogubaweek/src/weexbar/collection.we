@@ -1,15 +1,14 @@
 <template>
     <div>
     <navbar title="收藏"></navbar>
-
+    <text>ios template </text>
     </div>
 </template>
 
 <script>
+  require('weex-components');
+  require('./navbar.we')
 
-    require('weex-components');
-    var stream = require('@weex-module/stream');
-    var modal = require('@weex-module/modal');
     module.exports = {
             data:{
 
