@@ -201,6 +201,8 @@
 	        this.rows.push('navbar');
 	        this.rows.push('weexbar/joke_item');
 	        this.rows.push('weexbar/special_theme');
+	        this.rows.push('weexbar/dropdown-demo');
+	        this.rows.push('weexbar/we-action-sheet');
 	        this.getOptions();
 	    },
 	    ready: function ready() {},
