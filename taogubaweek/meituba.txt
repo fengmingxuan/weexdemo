@@ -1,0 +1,27 @@
+Go to directory of your project
+
+mkdir TestProject
+cd TestProject
+Make this directory a root of your project (this will create a default package.json file)
+
+npm init --yes
+Install required npm module and save it as a project dependency (it will appear in package.json)
+https://stackoverflow.com/questions/16482600/node-js-cannot-find-module-request
+npm install request --save
+Create a test.js file in project directory with code from package example
+
+var request = require('request');
+request('http://www.google.com', function (error, response, body) {
+  if (!error && response.statusCode == 200) {
+    console.log(body); // Print the google web page.
+  }
+});
+Your project directory should look like this
+
+TestProject/
+- node_modules/
+- package.json
+- test.js
+Now just run node inside your project directory
+
+node test.js

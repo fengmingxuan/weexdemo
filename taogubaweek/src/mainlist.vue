@@ -60,7 +60,7 @@
                 var name = event.target.attr.value;
                 modal.toast({ message:  name.toString()})
 
-                 weexModule.openUrl('http://192.168.1.15:8080/dist/'+name+'.weex.js', function(err){
+                 weexModule.openUrl('http://192.168.1.9:8080/dist/'+name+'.weex.js', function(err){
                    console.log(err);
                   });
 //                navigator.push({
