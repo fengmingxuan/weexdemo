@@ -10,7 +10,7 @@
              </refresh>
             <cell>
                 <scroller>
-                    <stock_news_item repeat="{{jokeArray}}"></stock_news_item>
+                    <stock_news_item repeat={{jokeArray}}></stock_news_item>
                 </scroller>
                 <div class="line"></div>
             </cell>
@@ -32,35 +32,9 @@
      data:{
             refresh_display:'hide',
             jokeArray:[],
+            test:'s-test',
             msg:'下拉刷新'
          },
-
-      created: function(){
-           console.log('created');
-                var self = this;
-                 stream.fetch({ 
-                     method:'GET', 
-                     url:'https://api.taoguba.com.cn/free/topic/apiGetForums?blockID=1&pageNo=1&flag=0', 
-                     headers:{ 
-                         'token':'V1265957&872778C220508F40E677DC2AF279757B-n1',
-                         'Content-Type':'application/json' 
-                     } },
-                    function(ret){ 
-                          console.log(ret);
-                             if(!ret.ok){ 
-                             modal.toast({"message":"Network Error!",'duration':2}); 
-                            }else{ 
-
-                                 var json = JSON.parse(ret.data); 
-                                 console.log('json');
-                                 for(var i = 0; i < json.dto.length;i++){
-                                     console.log('i=='+i+';');
-                                     self.jokeArray.push(json.dto[i]);
-                                 }
-                      } },
-                      function(res){  }
-                   );
-             },
 
         methods:{
             onrefresh:function(e){
@@ -68,6 +42,9 @@
                 var self = this;
                 self.msg = '下拉刷新';
                 self.refresh_display = 'show';
+//                this.$call('timer','setTimeout',function(){
+//                   self.refresh_display = 'hide';
+//                },2000);
                 self.refresh();
             },
 
@@ -96,10 +73,35 @@
                                 }
                             }
                     });
-             }
+               }
 
-          }
+          },
+         created: function(){
+          console.log('created');
+               var self = this;
+                stream.fetch({ 
+                            method:'GET', 
+                            url:'https://api.taoguba.com.cn/free/topic/apiGetForums?blockID=1&pageNo=1&flag=0', 
+                            headers:{ 
+                                'token':'V1265957&872778C220508F40E677DC2AF279757B-n1',
+                                'Content-Type':'application/json' 
+                            } },
+                         function(ret){ 
+                                 console.log(ret);
+                                    if(!ret.ok){ 
+                                    modal.toast({"message":"Network Error!",'duration':2}); 
+                                   }else{ 
 
+                                        var json = JSON.parse(ret.data); 
+                                        console.log('json');
+                                        for(var i = 0; i < json.dto.length;i++){
+                                            console.log('i=='+i+';');
+                                            self.jokeArray.push(json.dto[i]);
+                                        }
+                             } },
+                             function(res){  }
+                  );
+        }
     }
 </script>
 

@@ -1,0 +1,159 @@
+<template>
+<scroller>
+<div repeat="{{tips}}" class="row-item" onclick="gotoPage" title="{{subject}}" >
+  <div class="row">
+          <image class="img_view" src="https://img.alicdn.com/tps/TB1z.55OFXXXXcLXXXXXXXXXXXX-560-560.jpg"></image>
+          <text class="title" value="标题： {{subject}} "></text>
+          <text class="count" value=" {{discussNum}}万讨论  {{readNum}}万阅读 "></text>
+          <div class="bottom_line"></div>
+  </div>
+</div>
+</scroller>
+</template>
+
+<script>
+
+  require('weex-components');
+  var stream = weex.requireModule('stream');
+  var toastText = '666';
+  export default {
+    data () {
+      return {
+        weexStar: 'unknown',
+        vueStar: 'unknown',
+        // tips: [{type: 'success'}, {type: 'info'}, {type: 'warning'}, {type: 'danger'}],
+        tips:[],
+        img: 'https://gw.alicdn.com/tps/i2/TB1DpsmMpXXXXabaXXX20ySQVXX-512-512.png_400x400.jpg',
+      }
+    },
+
+    methods: {
+      getStarCount (repo, callback) {
+        return stream.fetch({
+          method: 'GET',
+          type: 'json',
+          url: 'https://api.taoguba.com.cn' + repo
+        }, callback)
+      },
+      _getData: function(){
+                var that = this;
+                var stream = require('@weex-module/stream');
+                var url = 'https://api.taoguba.com.cn' + '/free/topic/apiGetForums?blockID=1&pageNo=1&flag=0';
+                stream.fetch({
+                  method: 'GET',
+                  url: url,
+                  type:'json'
+                }, function(response) {
+                    if(response.status == 200){
+                      //这里需要兼容web和Native，Native需要将传递的数据JSON化
+                      var data = response.data;
+                      
+                      try{
+                        data = JSON.parse(response.data); 
+                      }catch(e){}
+                                                        
+                      if(data.status){
+
+                        // var obj = data.data;
+                        // that.recommendTopic.$set(0, obj.recommendTopic[0]);
+                        // that.recommendTopic.$set(1, obj.recommendTopic[1]);                     
+                        // that.recommendTopic = obj.recommendTopic;
+                        // that.hotRecommend1 = obj.hotTopic.slice(0, 4);
+                        // that.hotRecommend2 = obj.hotTopic.slice(4, 8);
+                        // that.category1 = obj.category.slice(0, 2);
+                        // that.category2 = obj.category.slice(2, 4);
+                        // that.cookies1 = obj.other.slice(0, 4);
+                        // that.cookies2 = obj.other.slice(4, 8);
+                      }else{
+                       //TODO:
+                      }
+                    }else{
+                        //TODO:错误处理
+                        //console.log('--response:-- ', response);
+                    }
+                },function(err){
+                    //console.log('---err---', err);
+                    //TODO:错误处理
+                });
+      },
+      toast: function() {
+        this.$call('modal', 'toast', {'message': toastText, 'duration': 2});
+      },
+      showHUD: function(text) {
+        this.$call('modal', 'toast', {'message': text, 'duration': 2});
+      },
+      gotoPage: function(e){
+                this.$openURL('//192.168.1.19:12580/examples/build/panwei/test1.js');
+            }
+    },
+
+    created () {
+      // this.getStarCount('/free/topic/apiGetForums?blockID=1&pageNo=1&flag=0', res => {
+      //   this.weexStar = res.ok ? res.data._t : '(network error)'
+      // })
+      this.getStarCount('/free/topic/apiGetForums?blockID=1&pageNo=1&flag=0', res => {
+        this.vueStar = res.ok ? res.data._t : '(network error)'
+        toastText = res.data._t;
+                      
+                      var dataList = res.data.dto;
+                      var data = res.data;
+
+                      // try{
+                      //   data = JSON.parse(res.data); 
+                      //   this.showHUD('成功');
+                      // }catch(e){
+                      //   this.showHUD('失败1234');
+                      // }
+                      
+                      for(var i=0;i< dataList.length;i++){
+                        var element = dataList[i];
+                        var text1 = {subject: element.subject,userName: element.userName,discussNum: element.totalReplyNum,readNum: element.usefulNum};
+                        this.tips.push(text1);
+                    }
+        // this.vueStar = res.ok ? res.data.stargazers_count : '(network error)'
+      })
+    }
+  }
+</script>
+
+
+<style scoped>
+  .img_view{
+        width:100;
+        height:80;
+        margin-left: 10;
+        margin-top: 10;
+        margin-bottom: 10;
+    }
+  .wrapper1 {
+    flex-direction: column;
+    justify-content: center;
+  }
+  .group1 {
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 40px;
+  }
+  .title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+    position:absolute;
+    top:11;
+    right: 15;
+    left:130;
+  }
+  .count {
+    font-size: 15px;
+    
+    /*margin-right: 12px;*/
+    color: #999999;
+    position:absolute;
+    right:15;
+    bottom: 15;
+  }
+  .bottom_line {
+    height: 1;
+    background-color: #f0f0f0;
+  }
+</style>
